@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: linear-gradient(to right, #ff7e5f, #feb47b, #ffcc33, #ff5733, #ff1493, #800080);
+            color: white;
+        }
+        .container {
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        h1 {
+            font-weight: bold;
+            color: #fff;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 80%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .options button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .back-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latihan Soal</h1>
+        <div id="quiz">
+            <p class="question" id="questionText">Soal akan muncul di sini</p>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            { question: "Apa fungsi dari elemen <head> dalam HTML?", options: ["Menyimpan konten utama website", "Menyimpan informasi meta, seperti judul dan link stylesheet", "Mengatur desain website"], answer: 1 },
+            { question: "Apa yang dimaksud dengan CSS dalam pembuatan website?", options: ["Bahasa untuk menulis konten", "Bahasa untuk mendesain tampilan website", "Bahasa untuk mengatur logika website"], answer: 1 },
+            { question: "Bagaimana cara menambahkan file CSS eksternal pada halaman HTML?", options: ["Menggunakan tag <link>", "Menggunakan tag <script>", "Menggunakan tag <style>"], answer: 0 },
+            { question: "Apa tujuan utama JavaScript dalam sebuah website?", options: ["Menyusun struktur website", "Mengubah tampilan website", "Menambahkan interaktivitas pada website"], answer: 2 },
+            { question: "Apa yang dimaksud dengan tag <div> dalam HTML?", options: ["Tag untuk menambahkan gambar", "Tag untuk membagi halaman menjadi bagian-bagian", "Tag untuk menampilkan teks"], answer: 1 },
+            { question: "Apa itu DOM dalam JavaScript?", options: ["Database Online Management", "Document Object Model, untuk memanipulasi elemen HTML dengan JavaScript", "Desain Organisasi Model"], answer: 1 },
+            { question: "Bagaimana cara menambahkan JavaScript pada halaman HTML?", options: ["Menggunakan tag <style>", "Menggunakan tag <script>", "Menggunakan tag <link>"], answer: 1 },
+            { question: "Apa fungsi dari tag <a> dalam HTML?", options: ["Menampilkan gambar", "Membuat link atau tautan", "Menambahkan teks"], answer: 1 },
+            { question: "Apa yang dimaksud dengan desain website yang ramah pengguna (user-friendly)?", options: ["Website yang sulit diakses", "Website yang mudah digunakan dan dipahami", "Website yang hanya bisa diakses oleh developer"], answer: 1 },
+            { question: "Mengapa warna penting dalam desain website pembelajaran?", options: ["Untuk menarik perhatian siswa", "Untuk menghilangkan elemen yang tidak penting", "Untuk membuat website lebih rumit"], answer: 0 },
+            { question: "Apa yang dimaksud dengan navigasi yang jelas dalam desain website pembelajaran?", options: ["Memungkinkan siswa untuk menemukan informasi dengan mudah", "Menggunakan banyak link yang membingungkan", "Menampilkan banyak gambar"], answer: 0 },
+            { question: "Mengapa penggunaan font yang mudah dibaca penting dalam desain website pembelajaran?", options: ["Agar siswa dapat membaca dengan nyaman", "Agar website terlihat lebih menarik", "Agar desain lebih rumit"], answer: 0 },
+            { question: "Apa manfaat utama menambahkan video dalam website pembelajaran?", options: ["Membuat website lebih berat", "Membantu siswa memahami materi dengan lebih baik", "Tidak ada manfaatnya"], answer: 1 },
+            { question: "Mengapa gambar penting dalam website pembelajaran?", options: ["Untuk menambah keindahan visual", "Untuk memperjelas informasi dan memberikan konteks", "Untuk membuat halaman lebih cepat dimuat"], answer: 1 },
+            { question: "Apa yang dimaksud dengan multimedia interaktif dalam website pembelajaran?", options: ["Hanya menggunakan gambar statis", "Menggunakan teks dan gambar untuk informasi", "Menambahkan elemen interaktif seperti kuis atau simulasi"], answer: 2 },
+            { question: "Apa keuntungan menggunakan audio dalam website pembelajaran?", options: ["Menambah variasi pembelajaran", "Memperlambat website", "Menghilangkan teks"], answer: 0 },
+            { question: "Apa keuntungan menggunakan website untuk ujian online?", options: ["Ujian dapat dikerjakan kapan saja", "Mengurangi interaksi siswa dengan guru", "Hanya bisa dikerjakan di komputer"], answer: 0 },
+            { question: "Apa yang dimaksud dengan soal pilihan ganda dalam ujian online?", options: ["Soal dengan jawaban terbuka", "Soal yang memiliki beberapa pilihan jawaban", "Soal yang tidak ada jawaban"], answer: 1 },
+            { question: "Apa keuntungan menggunakan sistem penilaian otomatis dalam ujian online?", options: ["Menyederhanakan proses penilaian dan pengumpulan data", "Memerlukan pengawasan manual", "Tidak efektif untuk siswa"], answer: 0 },
+            { question: "Apa yang perlu dipertimbangkan dalam membuat platform ujian online yang aman?", options: ["Membuka akses tanpa autentikasi", "Menggunakan enkripsi untuk melindungi data", "Menghindari penggunaan password"], answer: 1 },
+            { question: "Apa itu HTTPS dan mengapa itu penting untuk website pembelajaran?", options: ["Protokol untuk meningkatkan kecepatan website", "Protokol untuk menjaga keamanan data yang dikirimkan", "Hanya digunakan untuk situs belanja"], answer: 1 },
+            { question: "Apa yang dimaksud dengan autentikasi dalam website pembelajaran?", options: ["Memastikan pengguna terdaftar dan memiliki hak akses", "Menambah gambar ke halaman", "Mengubah warna tampilan website"], answer: 0 },
+            { question: "Mengapa penting untuk menjaga data pribadi siswa di website pembelajaran?", options: ["Untuk meningkatkan performa website", "Untuk melindungi privasi siswa", "Agar website terlihat profesional"], answer: 1 },
+            { question: "Apa yang dimaksud dengan enkripsi dalam konteks keamanan website?", options: ["Mengubah data menjadi format yang tidak dapat dibaca tanpa kunci", "Menyimpan data di cloud", "Menambah kecepatan loading halaman"], answer: 0 },
+            { question: "Apa itu fitur kuis interaktif dalam website pembelajaran?", options: ["Fitur untuk menampilkan materi pembelajaran", "Fitur untuk melibatkan siswa dalam ujian atau latihan", "Fitur untuk menambahkan gambar"], answer: 1 },
+            { question: "Mengapa penting untuk menyediakan feedback langsung setelah siswa mengerjakan kuis?", options: ["Untuk memberi tahu siswa apakah jawaban mereka benar atau salah", "Untuk memperpanjang waktu ujian", "Agar siswa tidak bisa menilai jawabannya"], answer: 0 },
+            { question: "Apa itu forum diskusi dalam website pembelajaran?", options: ["Tempat untuk mengerjakan soal ujian", "Tempat bagi siswa untuk berinteraksi dan berdiskusi", "Tempat untuk menonton video"], answer: 1 },
+            { question: "Apa manfaat dari gamifikasi dalam website pembelajaran?", options: ["Membuat pembelajaran lebih menyenangkan dan menarik", "Mengurangi keefektifan pembelajaran", "Memperumit materi pembelajaran"], answer: 0 },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('questionText').textContent = currentQuestion.question;
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctAnswerIndex = questions[currentQuestionIndex].answer;
+            if (selectedIndex === correctAnswerIndex) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            document.getElementById('quiz').innerHTML = `
+                <h2>Nilai Anda: ${score} dari ${questions.length}</h2>
+                <button class="back-button" onclick="window.location.href='index.html'">Kembali ke Halaman Utama</button>
+            `;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
